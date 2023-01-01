@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scroll Animation</title>
+  <style>
+    .aos {
+      position: relative;
+      top: 80px;
+      opacity: 0;
+      height: 20vh;
+      width: 40%;
+      padding: 1rem;
+      transition: 0.5s ease-out;
+      border: 1px solid black;
+      background-color: rgba(148, 148, 148);
+      margin: 5rem 5rem 50vh 5rem;
+    }
+    .aos.active {
+      top: 0;
+      opacity: 1;
+      transform: translateY(-60px);
+      transition: 0.5s ease-in;
+    }
+  </style>
+</head>
+<body>
+  <div class="aos">
+    <h1>Heading</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum assumenda, consequatur quis amet totam necessitatibus adipisci dolores vero explicabo dolore magni quia quibusdam deleniti quam ipsa hic alias facere dolorem.</p>
+  </div>
+
+  <div class="aos">
+    <h1>Heading 2</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum assumenda, consequatur quis amet totam necessitatibus adipisci dolores vero explicabo dolore magni quia quibusdam deleniti quam ipsa hic alias facere dolorem.</p>
+  </div>
+
+  <div class="aos">
+    <h1>Heading 3</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum assumenda, consequatur quis amet totam necessitatibus adipisci dolores vero explicabo dolore magni quia quibusdam deleniti quam ipsa hic alias facere dolorem.</p>
+  </div>
+
+  <div class="aos">
+    <h1>Heading 4</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum assumenda, consequatur quis amet totam necessitatibus adipisci dolores vero explicabo dolore magni quia quibusdam deleniti quam ipsa hic alias facere dolorem.</p>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
