@@ -41,8 +41,9 @@ TranslateYAni.prototype.smoothScroll = function(){
   Array.prototype.forEach.call(this.options.transYAniSections, (element) =>{
     if(this.isVisibleSection(element)){
       element.classList.add('is-trans-y-ani');
+      return true;
     }
-    return true;
+    
   });
   
 }
