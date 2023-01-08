@@ -45,24 +45,33 @@ const Slider = function(props){
   this.idx = 0;
   this.isSliding = false;
   this.track = props.itemTrack;
-  this.children = this.track.children;
   this.itemWidth = props.itemWidth.offsetWidth + 40;
+  this.children = this.track.children;
   this.options = {
     autoSpeed: 2500,
+  }
+  this.customEvent = {
+    prev : new CustomEvent('slideLeft'),
+    next : new CustomEvent('slideRight'),
   }
   this.autoSlide = null;
   this.progressBar = null;
 
   this.initStyle();
-  this.slide();
+  // this.slide();
   this.createClones();
   // this.setAutoSlide();
 }
 Slider.prototype.initStyle = function(){
   this.track.style.transform = 'translateX(0px)';
-  const items = Array.from(this.track.children).filter(child => !child.classList.contains('clone'));
+  const lists = Array.from(this.track.children);
+  const items = Array.from(this.track.children).filter(child => {
+    return (
+      !child.classList.contains('clone')
+    )
+  });
   this.track.style.left = `${this.itemWidth * items.length * -1}px`;
-  
+  console.log(lists)
 }
 Slider.prototype.createClones = function(){
   const nodes = Array.from(this.track.children);
@@ -98,7 +107,8 @@ Slider.prototype.slide = function(){
 
   this.track.addEventListener('transitionend', ()=> {
     this.track.style.transition = '0s';
-    this.track.style.transform = `translateX(-${this.itemWidth * this.idx}px)`;
+    this.track.style.transform = `translateX(${this.itemWidth * this.idx * -1}px)`;
+    console.log(this.track.style.transform)
   });
 
   this.renderProgressBar(this.idx / orgLen);
@@ -120,26 +130,37 @@ Slider.prototype.setAutoSlide = function(){
 Slider.prototype.cleartAutoSlide = function(){
   clearInterval(this.autoSlide);
 }
-Slider.prototype.setButton = function(props){
+Slider.prototype.setEventListener = function(props){
   const prevBtn = props.prev;
   const nextBtn = props.next;
 
   prevBtn.addEventListener('click', () => {
     this.cleartAutoSlide();
     this.prevSlide();
-    setTimeout(() => {
-      this.setAutoSlide();
-    },1000);
+    // setTimeout(() => {
+    //   this.setAutoSlide();
+    // },1000);
   });
 
   nextBtn.addEventListener('click', () => {
     this.cleartAutoSlide();
     this.nextSlide();
-    setTimeout(() => {
-      this.setAutoSlide();
-    },1000);
+    // setTimeout(() => {
+    //   this.setAutoSlide();
+    // },1000);
   });
   
+  prevBtn.addEventListener('slideLeft', this.prevSlide.bind(this));
+  nextBtn.addEventListener('slideRight', this.nextSlide.bind(this));
+
+  document.addEventListener('keydown', (e) => {
+    e = e || window.event;
+    if(e.keyCode === 37){
+      prevBtn.dispatchEvent(this.customEvent.prev);
+    }else if(e.keyCode === 39){
+      nextBtn.dispatchEvent(this.customEvent.next);
+    }
+  }, false);
 }
 Slider.prototype.renderProgressBar = function(ratio){
   this.progressBar = document.querySelector('#main_feature .feature-cgroup[data-menu="nav1"] .right .progress-bar .bar');
@@ -151,7 +172,7 @@ const slide1 = new Slider({
   itemTrack : document.querySelector('#main_feature .feature-cgroup[data-menu="nav1"] .item-track'),
   itemWidth : document.querySelector('#main_feature .feature-cgroup[data-menu="nav1"] .item-track .item'),
 });
-slide1.setButton({
+slide1.setEventListener({
   prev : document.querySelector('#main_feature .feature-cgroup[data-menu="nav1"] .left .btn-group button.prev'),
   next : document.querySelector('#main_feature .feature-cgroup[data-menu="nav1"] .left .btn-group button.next')
 });
