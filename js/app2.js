@@ -13,10 +13,6 @@ const Slider = (function(){
       current: 0,
       min : 0,
       max : elements.length - 1
-    },
-    update: function(value){
-      this.position.current = value;
-      this.offset = -value;
     }
   }
 
@@ -59,16 +55,30 @@ const Slider = (function(){
   }
 
   function slide(){
+
     itemTrack.style.transition = '1s';
-    itemTrack.style.transform = `translateX(${itemsInfo.offset * itemWidth}px)`;
+    itemTrack.style.transform = `translateX(${itemWidth * itemsInfo.position.current * -1}px)`;
+
+    const orgLength = itemTrack.children.length / 3;
+
+    console.log(itemsInfo.position.current)
+
+    if(orgLength <= itemsInfo.position.current){
+      itemsInfo.position.current = 0;
+    }
+
+    itemTrack.addEventListener('transitionend', () => {
+      itemTrack.style.transition = '0s';
+      itemTrack.style.transform = `translateX(${itemWidth * itemsInfo.position.current * -1}px)`;
+    });
   }
 
   function nextSlide(){
     
   }
 
-  function updateItemInfo(value){
-    itemsInfo.update(value);
+  function updateItemInfo(){
+    itemsInfo.position.current = itemsInfo.position.current + 1
     slide();
   }
 
@@ -77,7 +87,7 @@ const Slider = (function(){
     prevBtn = props.prev;
 
     nextBtn.addEventListener('click', () => {
-      updateItemInfo(itemsInfo.position.current + 1);
+      updateItemInfo();
     });
 
     prevBtn.addEventListener('click', () => {
