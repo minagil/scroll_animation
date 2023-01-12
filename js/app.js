@@ -71,6 +71,9 @@ Slider.prototype.initStyle = function(){
     )
   });
   this.track.style.left = `${this.itemWidth * items.length * -1}px`;
+  // lists.forEach((list) => {
+  //   list.setAttribute('tabindex','0')
+  // })
   console.log(lists)
 }
 Slider.prototype.createClones = function(){
@@ -78,12 +81,14 @@ Slider.prototype.createClones = function(){
   nodes.forEach(node => {
     const clone = node.cloneNode(true);
     clone.classList.add('clone');
+    clone.setAttribute('tabindex','-1');
     this.track.append(clone);
   });
 
   nodes.reverse().forEach(node => {
     const clone = node.cloneNode(true);
     clone.classList.add('clone');
+    clone.setAttribute('tabindex','-1');
     this.track.prepend(clone);
   });
 }
