@@ -127,3 +127,5 @@ main section.top .phone_wrap .inner video {position: absolute;left: 50%;top: 6%;
 #main_feature .feature-content .right .item button {font-weight: 700;font-size: 18px;color: #888;display: flex;align-items: center;}
 #main_feature .feature-content .right .progress-bar {margin-left: 40px;margin-top: 50px;width: 800px;height: 5px;border-bottom: 1px solid #DEE4ED;}
 #main_feature .feature-content .right .progress-bar .bar {width: 10%;height: 4px;background-color:#4F5355;transition: 1s;}
+/* 접근성 - 보이지않는 텍스트는 감추기 */
+#main_feature .feature-content .right .item[class*="clone"] {visibility: hidden;}
