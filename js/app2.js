@@ -55,7 +55,6 @@ const Slider = (function(){
   }
 
   function slide(){
-
     itemTrack.style.transition = '1s';
     itemTrack.style.transform = `translateX(${itemWidth * itemsInfo.position.current * -1}px)`;
 
