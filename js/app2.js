@@ -77,6 +77,7 @@ const Slider = (function(){
   }
 
   function updateItemInfo(){
+    
     itemsInfo.position.current = itemsInfo.position.current + 1
     slide();
   }
