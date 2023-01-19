@@ -1,18 +1,21 @@
 const Slider = (function(){
+  let isSliding = false;
+  let progressBar = null;
 
   function Slider(){
     this.idx = 0;
+    this.autoSlide = null;
+
+    progressBar = document.querySelector('#main_feature .feature-cgroup[data-menu="nav1"] .right .progress-bar .bar');
+
+    // this.setAutoSlide();
 
     return function(){
       this.setEventButton();
     }
-    
+
   }
   
-  Slider.prototype.slideItem = function(){
-
-  }
-
   Slider.prototype.nextSlide = function() {
     this.slideItem();
   }
@@ -26,25 +29,45 @@ const Slider = (function(){
     const nextBtn = props.next;
 
     nextBtn.addEventListener('click', () => {
-      this.idx++;
+      this.clearAutoSlide();
       this.nextSlide();
+      setTimeout(() => {
+        this.setAutoSlide();
+      }, 1000);
     });
 
     prevBtn.addEventListener('click', () => {
-      this.idx--;
+      this.clearAutoSlide();
       this.prevSlide();
+      setTimeout(() => {
+        this.setAutoSlide();
+      });
     });
   }
 
-  return Slider;
+  Slider.prototype.setAutoSlide = function(){
+    this.autoSlide = setInterval(() => {
+      this.idx++;
+      this.slideItem();
+    },2500);
+  }
   
+  Slider.prototype.clearAutoSlide = function(){
+    clearInterval(this.autoSlide);
+  }
+
+  Slider.prototype.renderProgressBar = function(ratio){
+    progressBar.style.width = `${ratio*100}%`;
+  }
+
+  return Slider;
+
 }());
 
 const MainBannerSlide = (function(){
   let itemTrack = null;
   let itemWidth = null;
   let item = null;
-  let isSliding = false;
 
   function MainBannerSlide(props){
     itemTrack = props.itemTrack;
@@ -102,13 +125,10 @@ const MainBannerSlide = (function(){
     if(this.idx <= -3) {
       this.idx = 2;
     }
-    console.log(this.idx)
 
-    itemTrack.addEventListener('transitionend', () => {
-      itemTrack.style.transition = '0s';
-      itemTrack.style.transform = `translateX(-${itemWidth * this.idx}px)`;
-    });
+    this.renderProgressBar(this.idx / orgLength);
   }
+
 
   return MainBannerSlide;
 }());
